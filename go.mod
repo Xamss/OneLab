@@ -1,4 +1,4 @@
-module github.com/Tilvaldiyev/blog-api
+module api-blog
 
 go 1.19
 

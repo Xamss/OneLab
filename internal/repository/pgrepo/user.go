@@ -24,3 +24,22 @@ func (p *Postgres) CreateUser(ctx context.Context, u *entity.User) error {
 
 	return nil
 }
+
+func (p *Postgres) Login(ctx context.Context, username, password string) (*entity.User, error) {
+	query := fmt.Sprintf(`
+		SELECT password FROM %s WHERE username = $1
+	`, usersTable)
+	var user entity.User
+
+	err := p.Pool.QueryRow(ctx, query, username).Scan(&user.Password)
+	if err != nil {
+		return &user, err
+	}
+
+	return &user, nil
+}
+
+// Need to fetch user data first - maybe use middleware and etc.
+//func (p *Postgres) UpdateUser(ctx context.Context, u *entity.User) error{
+//
+//}

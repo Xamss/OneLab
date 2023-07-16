@@ -8,6 +8,8 @@ import (
 )
 
 const usersTable = "users"
+const articleTable = "articles"
+const categoryTable = "category"
 
 type Postgres struct {
 	host     string

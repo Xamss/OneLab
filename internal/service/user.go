@@ -21,3 +21,11 @@ func (m *Manager) CreateUser(ctx context.Context, u *entity.User) error {
 
 	return nil
 }
+
+func (m *Manager) Login(ctx context.Context, username, password string) (string, error) {
+	compareHashedPassword, err := util.HashPassword(password)
+	if err != nil {
+		return "", err
+	}
+
+}
