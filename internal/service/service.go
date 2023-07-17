@@ -7,7 +7,7 @@ import (
 
 type Service interface {
 	CreateUser(ctx context.Context, u *entity.User) error
-	Login(ctx context.Context, username, password string) (*entity.User, error)
+	Login(ctx context.Context, username, password string) error
 	//UpdateUser(ctx context.Context, u *entity.User) error
 	//DeleteUser(ctx context.Context, id int64) error
 
