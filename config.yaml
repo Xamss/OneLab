@@ -10,3 +10,6 @@ db:
   port: '5432'
   db_name: 'blog_db'
   username: 'guest'
+
+token:
+  time_to_live: "15m"

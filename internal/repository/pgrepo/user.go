@@ -4,6 +4,8 @@ import (
 	"api-blog/internal/entity"
 	"context"
 	"fmt"
+	"github.com/georgysavva/scany/pgxscan"
+	"strings"
 )
 
 func (p *Postgres) CreateUser(ctx context.Context, u *entity.User) error {
@@ -25,21 +27,15 @@ func (p *Postgres) CreateUser(ctx context.Context, u *entity.User) error {
 	return nil
 }
 
-func (p *Postgres) Login(ctx context.Context, username string) (*entity.User, error) {
-	query := fmt.Sprintf(`
-		SELECT password FROM %s WHERE username = $1
-	`, usersTable)
-	var user entity.User
+func (p *Postgres) GetUser(ctx context.Context, username string) (*entity.User, error) {
+	user := new(entity.User)
 
-	err := p.Pool.QueryRow(ctx, query, username).Scan(&user.Password)
+	query := fmt.Sprintf("SELECT id, username, first_name, last_name, hashed_password FROM %s WHERE username = $1", usersTable)
+
+	err := pgxscan.Get(ctx, p.Pool, user, query, strings.TrimSpace(username))
 	if err != nil {
-		return &user, err
+		return nil, err
 	}
 
-	return &user, nil
+	return user, nil
 }
-
-// Need to fetch user data first - maybe use middleware and etc.
-//func (p *Postgres) UpdateUser(ctx context.Context, u *entity.User) error{
-//
-//}

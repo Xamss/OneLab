@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"api-blog/api"
 	"api-blog/internal/entity"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -13,7 +14,7 @@ func (h *Handler) createArticle(ctx *gin.Context) {
 	err := ctx.ShouldBindJSON(&req)
 	if err != nil {
 		log.Printf("bind json err: %s \n", err.Error())
-		ctx.JSON(http.StatusBadRequest, &Error{
+		ctx.JSON(http.StatusBadRequest, &api.Error{
 			Code:    -1,
 			Message: err.Error(),
 		})
@@ -22,7 +23,7 @@ func (h *Handler) createArticle(ctx *gin.Context) {
 
 	err = h.srvs.CreateArticle(ctx, &req)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, &Error{
+		ctx.JSON(http.StatusInternalServerError, &api.Error{
 			Code:    -2,
 			Message: err.Error(),
 		})
