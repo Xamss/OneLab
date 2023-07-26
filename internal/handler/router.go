@@ -11,8 +11,9 @@ func (h *Handler) InitRouter() *gin.Engine {
 	user.POST("/register", h.createUser)
 	user.POST("/login", h.loginUser)
 
-	apiV1.Use(h.authMiddleware())
-	apiV1.GET("/user/posts", h.userPosts)
+	post := user.Group("/post")
+	post.Use(h.authMiddleware())
+	post.GET("/create", h.createArticle)
 
 	return router
 }

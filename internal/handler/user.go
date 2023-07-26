@@ -60,23 +60,3 @@ func (h *Handler) loginUser(ctx *gin.Context) {
 		Data:    accessToken,
 	})
 }
-
-func (h *Handler) userPosts(ctx *gin.Context) {
-	userID, ok := ctx.MustGet(authUserID).(int64)
-	if !ok {
-		log.Printf("can't get userID")
-		ctx.JSON(http.StatusBadRequest, &api.Error{
-			Code:    -1,
-			Message: "can't get user id from auth",
-		})
-		return
-	}
-
-	// logic
-
-	ctx.JSON(http.StatusOK, &api.Ok{
-		Code:    0,
-		Message: "success",
-		Data:    userID,
-	})
-}
