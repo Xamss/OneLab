@@ -1,11 +1,18 @@
 package handler
 
-import "github.com/gin-gonic/gin"
+import (
+	_ "api-blog/docs"
+	"github.com/gin-gonic/gin"
+	"github.com/swaggo/files"
+	"github.com/swaggo/gin-swagger"
+)
 
 func (h *Handler) InitRouter() *gin.Engine {
 	router := gin.Default()
 
-	apiV1 := router.Group("/api/v2/beta")
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+	apiV1 := router.Group("/api/v1")
 
 	user := apiV1.Group("/user")
 	user.POST("/register", h.createUser)
